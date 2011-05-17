@@ -345,7 +345,7 @@
 		<dependency>
 			<groupId>org.milyn</groupId>
 			<artifactId>milyn-smooks-edi</artifactId>
-			<version>1.5-SNAPSHOT</version>
+			<version>${smooks.version}</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
@@ -473,7 +473,7 @@
 
 		<datanucleus.version>1.1.5</datanucleus.version>
 		<gae.home>/Users/zubairov/Tools/appengine-java-sdk-1.5.0</gae.home>
-		
+
 		<smooks.version>1.5-SNAPSHOT</smooks.version>
 	</properties>
 
