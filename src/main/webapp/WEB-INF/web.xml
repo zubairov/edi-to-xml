@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<servlet>
+		<description>EDIFACT to XML Conversion</description>
+		<servlet-name>toXML</servlet-name>
+		<servlet-class>org.zubairov.edi2xml.ToXMLServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>XML Serving Servlet</description>
+		<servlet-name>convertEDI</servlet-name>
+		<servlet-class>org.zubairov.edi2xml.EDIConversionServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>EDI Serving Servlet</description>
+		<servlet-name>displayEDI</servlet-name>
+		<servlet-class>org.zubairov.edi2xml.EDIDisplayServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>toXML</servlet-name>
+		<url-pattern>/toXML</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>convertEDI</servlet-name>
+		<url-pattern>/xml/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>displayEDI</servlet-name>
+		<url-pattern>/edi/*</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<filter-name>appstats</filter-name>
+		<filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+		<init-param>
+			<param-name>logMessage</param-name>
+			<param-value>Appstats available: /appstats/details?time={ID}</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>appstats</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>
