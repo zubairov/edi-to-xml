@@ -3,6 +3,7 @@ package org.zubairov.edi2xml;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,9 +56,25 @@ public class EDIConversionServlet extends HttpServlet {
 		UNEdifactInterchangeParser parser = new UNEdifactInterchangeParser();
 		parser.setFeature(EDIParser.FEATURE_IGNORE_NEWLINES, true);
 		parser.setFeature(EDIParser.FEATURE_VALIDATE, true);
-		parser.setContentHandler(new OutputHandler(out));
+		StringWriter sout = new StringWriter();
+		PrintWriter pout = new PrintWriter(sout);
+		parser.setContentHandler(new OutputHandler(pout));
 		ByteArrayInputStream in = new ByteArrayInputStream(edifact.getBytes());
-		parser.parse(new InputSource(in));
+		try {
+			parser.parse(new InputSource(in));
+			out.print(sout.toString());
+		} catch (SAXException e) {
+			sout = new StringWriter();
+			pout = new PrintWriter(sout);
+			e.printStackTrace(pout);
+			out.print("<exception>");
+			out.print(this.escape(sout.toString()));
+			out.print("</exception>\n");
+		}
+	}
+
+	private String escape(String s) {
+		return s.replaceAll("\\&", "&amp;").replaceAll("\\>", "&gt;").replaceAll("\\<", "&lt;");
 	}
 
 	@Override
